@@ -14,8 +14,8 @@ if (process.env.NODE_ENV == 'production') {
         applyMiddleware(thunk.withExtraArgument(API)),
     );
 }
-const preloadedState = window.INITIAL_STATE || {};
-
+const preloadedState = window.__INITIAL_STATE__ || {};
+delete window.__INITIAL_STATE__
 const store = createStore(
     reducers,//reducers
     preloadedState,

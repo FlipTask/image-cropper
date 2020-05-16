@@ -30,7 +30,7 @@ export default (req,res,next) => {
             if (context.notFound) {
                 res.status(404);
             }
-
+            // console.log(content);
             res.send(content);
         }).catch((err) => {
             console.log(err);

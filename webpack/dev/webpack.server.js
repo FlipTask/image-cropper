@@ -18,9 +18,22 @@ const config = {
                 exclude: /node_modules/,
                 options: {
                     caller: { name: "node" },
-                    presets: ["@babel/preset-env"]
+                    // presets: ["@babel/preset-env"]
                 }
             },
+            {
+                test: /\.scss$/,
+                use: [
+                    "isomorphic-style-loader",
+                    {
+                        loader: 'css-loader',
+                        options: {
+                          importLoaders: 1
+                        }
+                    },
+                    "sass-loader",
+                ]
+            }
         ]  
     },
     //Tell webpack the root file of our
@@ -31,7 +44,7 @@ const config = {
         __filename: false, // and __filename return blank or /
     },
     entry: {
-       server: path.resolve(__dirname, '../../server/server.js'),
+       server: path.resolve(__dirname, '../../server/server.js')
     },
     
     // Tell webpack where to put the output file
@@ -40,6 +53,7 @@ const config = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, '../../server-build'),
+        globalObject: 'this'
     },
     plugins: [
         new CleanWebpackPlugin(),

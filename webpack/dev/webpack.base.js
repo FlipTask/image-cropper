@@ -2,15 +2,17 @@ const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BrotliPlugin = require("brotli-webpack-plugin");
 module.exports = {
     //Tell webpack to run babel on every file it runs through
-    mode: "development",
-    devtool: "eval",
+    mode: "production",
+    devtool: "source-map",
     module: {
         rules: [
             {
                 test: /\.js?$/,
-                loader: 'babel-loader',
+                loader: ['babel-loader','source-map-loader'],
                 exclude: /node_modules/,
             }
         ]
@@ -24,6 +26,24 @@ module.exports = {
             systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
             silent: true, // hide any errors
             defaults: false // load '.env.defaults' as the default values if empty.
+        }),
+        new UglifyJsPlugin({
+            sourceMap: true,
+            uglifyOptions: {
+                warnings: false,
+                parse: {},
+                compress: {},
+                mangle: true, // Note `mangle.properties` is `false` by default.
+                output: null,
+                toplevel: false,
+                nameCache: null,
+                ie8: false,
+                keep_fnames: false,
+            },
+        }),
+        new BrotliPlugin({
+            asset: "[path].br[query]",
+            test: /\.js$|\.css$|\.html$/,
         })
     ]
 };

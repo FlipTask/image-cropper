@@ -1,32 +1,40 @@
+const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = {
 
     target: 'web',
     entry: path.resolve(__dirname, '../../client/index.js'),
-    module:{
-        rules: [
-            {
+    module: {
+        rules: [{
                 test: /\.js?$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 options: {
-                    caller: { name: "web" }
+                    caller: {
+                        name: "web"
+                    }
                 }
             },
             {
-                test: /\.(scss)$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader',{
-                    loader: `postcss-loader`,
-                    options: {
-                        options: {},
-                    }
-                },'sass-loader']
-            }
+                test: /\.scss$/,
+                use: [
+                    "isomorphic-style-loader",
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                          importLoaders: 1
+                        }
+                    },
+                    "sass-loader",
+                ]
+            },
         ]
     },
     // Tell webpack where to put the output file
@@ -40,19 +48,18 @@ const config = {
     },
     optimization: {
         splitChunks: {
-          chunks: 'all'
+            chunks: 'all'
         },
         runtimeChunk: true,
     },
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css',
+            filename: 'main.css',
             ignoreOrder: false,
-        })
+        }),
     ],
 };
 
 // console.log(JSON.stringify(merge.smart(config,baseConfig)));
-module.exports = merge.smart(baseConfig,config);
+module.exports = merge.smart(baseConfig, config);

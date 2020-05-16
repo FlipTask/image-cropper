@@ -1,9 +1,6 @@
 import {combineReducers} from 'redux';
+import StoriesReducer from "./StoriesReducer";
 
 export default combineReducers({
-    key: () => {
-        return {
-            key: "ABC"
-        }
-    }
+    stories: StoriesReducer
 });
