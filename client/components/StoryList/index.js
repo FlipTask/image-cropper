@@ -32,7 +32,7 @@ class StoryList extends Component {
         const { search } = props.location;
         const qParams = parseQueryString(search);
         try {
-            if (parseInt(qParams.page, 10) !== parseInt(state.currPage, 10)) {
+            if (qParams.page && (parseInt(qParams.page, 10) !== parseInt(state.currPage, 10))) {
                 props.fetchStories(qParams.page);
                 return {
                     currPage: qParams.page

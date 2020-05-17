@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  web:
+    env_file: ./.env
+    image: "web:${TAG}"
+    ports:
+      - 8080:${PORT}
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        - PORT:${PORT}
+        - API_URL:${API_URL}

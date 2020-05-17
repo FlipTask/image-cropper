@@ -5,6 +5,7 @@ import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import ServeWeb from "./helpers/ServeWeb";
 
+const { createProxyMiddleware } = require("http-proxy-middleware");
 const compression = require("compression");
 
 const app = express();
@@ -18,6 +19,8 @@ app.use(compression({
     level: 6, // set compression level from 1 to 9 (6 by default)
     filter: shouldCompress // set predicate to determine whether to compress
 }));
+
+
 app.use("/static", express.static(Path.resolve(__dirname, "./../client-build")));
 app.use("/assets/", express.static(Path.resolve(__dirname, "./../assets")));
 app.use(express.static(Path.resolve(__dirname, "./../public")));
@@ -32,6 +35,14 @@ app.get("*.js", (req, res, next) => {
 app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+const apiProxy = createProxyMiddleware("/api/v1", {
+    target: `${process.env.API_URL}`,
+    // secure: false,
+    changeOrigin: true
+});
+app.use(apiProxy);
 
 
 app.get("/*", ServeWeb);
