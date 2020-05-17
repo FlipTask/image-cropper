@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: `${process.env.API_URL}/api/v1`,
+    baseURL: `${process.env.API_URL}/api/v1`
 });
 
 export default axiosInstance;

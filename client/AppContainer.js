@@ -1,6 +1,5 @@
-import React, {Component} from "react";
-import {renderRoutes} from "react-router-config";
-  
+import React, { Component } from "react";
+import { renderRoutes } from "react-router-config";
 
 class AppContainer extends Component {
     render() {

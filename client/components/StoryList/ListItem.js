@@ -1,44 +1,42 @@
 import React from "react";
 
 const getOriginFromUrl = (str) => {
-    if(!str){
+    if (!str) {
         return null;
     }
-    try{
+    try {
         const url = new window.URL(str);
-        return url.origin;   
-    }catch(err){
+        return url.origin;
+    } catch (err) {
         // console.log(err);
         return str;
     }
-}
+};
 
-export default (props) => {
+const getClassForPoints = (points = 0) => {
+    if (points >= 50 && points < 100) {
+        return "text-brown";
+    } if (points >= 100) {
+        return "text-orange";
+    }
+    return null;
+};
+
+const ListItem = (props) => {
     const {
-        num_comments, // Number of comments
+        num_comments: numComments, // Number of comments
         points, // Vote Count
         title,
         url,
-        author,
-        created_at
+        author
     } = props.data;
-    if(!title){
+    if (!title) {
         return null;
-    }
-    
-    const getClassForPoints = (points=0) => {
-        if(points >= 50 && points < 100){
-            return "text-brown"
-        }else if(points >= 100){
-            return "text-orange";
-        }else{
-            return null;
-        }
     }
     const className = getClassForPoints(points);
     return (
         <tr className="row-item">
-            <td className="row-item__td">{num_comments || "-"}</td>
+            <td className="row-item__td">{numComments || "-"}</td>
             <td className={`row-item__td ${className}`}>{points || "-"}</td>
             <td className="row-item__td">
                 <span className="caret-upvote"></span>
@@ -46,10 +44,10 @@ export default (props) => {
             <td className="row-item__td">
                 <div className="row-item__info clearfix">
                     <div className="row-item__info--title">
-                        <a href={url} target="__blank" suppressHydrationWarning={true}>
+                        <a href={url} target="__blank">
                             {title}
                         </a>
-                        <small>{getOriginFromUrl(url)}</small>
+                        <small suppressHydrationWarning={true}>{getOriginFromUrl(url)}</small>
                     </div>
                     <div className="row-item__info--meta">
                         <div className="row-item__info--meta-block">
@@ -57,12 +55,14 @@ export default (props) => {
                         </div>
                         <div className="row-item__info--meta-block">
                             <small>
-                                <a href="#">hide</a>    
+                                <a href="#">hide</a>
                             </small>
                         </div>
                     </div>
                 </div>
             </td>
         </tr>
-    )
-}
+    );
+};
+
+export default ListItem;

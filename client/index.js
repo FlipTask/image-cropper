@@ -1,19 +1,18 @@
-/* global document */
-
 import React from "react";
-import {hydrate} from "react-dom";
-import {Provider} from "react-redux";
+import { hydrate } from "react-dom";
+import { Provider } from "react-redux";
+import { Router } from "react-router-dom";
+import { loadableReady } from "@loadable/component";
+import StyleContext from "isomorphic-style-loader/StyleContext";
 import store from "./config/store";
-import {Router} from "react-router-dom";
 import History from "./config/history";
 import App from "./App";
-import {loadableReady} from '@loadable/component';
-import StyleContext from 'isomorphic-style-loader/StyleContext'
 
 const insertCss = (...styles) => {
-    const removeCss = styles.map(style => style._insertCss())
-    return () => removeCss.forEach(dispose => dispose())
-}
+    // eslint-disable-next-line no-underscore-dangle
+    const removeCss = styles.map((style) => style._insertCss());
+    return () => removeCss.forEach((dispose) => dispose());
+};
 
 loadableReady(() => {
     console.log("Load Ready >>>");
@@ -24,5 +23,6 @@ loadableReady(() => {
                     <App/>
                 </Router>
             </StyleContext.Provider>
-    </Provider>, document.getElementById("root"));
+        </Provider>, document.getElementById("root")
+    );
 });

@@ -1,0 +1,87 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "es6": true,
+        "commonjs": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base",
+        "eslint:recommended", 
+        "plugin:react/recommended"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "allowImportExportEverywhere": true,
+        "ecmaVersion": 8,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "settings": {
+        "react": {
+          "createClass": "createReactClass",             
+          "pragma": "React",  
+          "version": "detect",
+          "flowVersion": "0.53" 
+        }
+    },
+    "plugins": ["react"],
+    "rules": {
+        "no-console": "off",
+        "semi": [
+            "error", "always"
+        ],
+        "quotes": [
+            "error", "double"
+        ],
+        "indent": [
+            "error", 4
+        ],
+        "react/jsx-indent": [
+            "error",
+            4, {
+                "checkAttributes": true
+            }
+        ],
+        "max-len": 0,
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
+        "react/react-in-jsx-scope": "off",
+        "react/destructuring-assignment": "off",
+        "no-nested-ternary": "warn",
+        "react/prop-types": 0,
+        "prefer-destructuring": [
+            "warn", {
+                "VariableDeclarator": {
+                    "array": false,
+                    "object": true
+                },
+                "AssignmentExpression": {
+                    "array": true,
+                    "object": false
+                }
+            }, {
+                "enforceForRenamedProperties": false
+            }
+        ],
+        "comma-dangle": [
+            "error", {
+                "arrays": "never",
+                "objects": "never",
+                "imports": "never",
+                "exports": "never",
+                "functions": "never"
+            }
+        ],
+        "import/no-extraneous-dependencies": [
+            "error", {
+                "devDependencies": true,
+                "optionalDependencies": true,
+                "peerDependencies": true
+            }
+        ]
+    }
+}
