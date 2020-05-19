@@ -11,7 +11,7 @@
         "build": "npm run prod:build-client && npm run prod:build-server",
         "prod:build-server": "NODE_ENV=production webpack --config webpack/production/webpack.server.js",
         "prod:build-client": "NODE_ENV=production webpack --config webpack/production/webpack.client.js",
-        "serve": "NODE_ENV=production node server-build/server.js",
+        "start": "NODE_ENV=production node server-build/server.js",
         "lint": "./node_modules/eslint-watch/bin/esw --",
         "lint:watch": "npm run lint --watch",
         "docker": "./tools/docker.sh",
@@ -105,5 +105,8 @@
         "react-router-dom": "^5.1.2",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0"
+    },
+    "engines": {
+        "node": "10.x"
     }
 }
