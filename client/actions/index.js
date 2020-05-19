@@ -48,11 +48,13 @@ export const fetchStories = (page = 0) => async (dispatch, getState, { api }) =>
         const res = await api.get(`/search?page=${page}&hitsPerPage=30`);
         const modifiedData = await dispatch(updateListWithPersistentData(res.data));
         dispatch(updateStoriesInStore(modifiedData));
+        return modifiedData;
     } catch (err) {
         console.log(err);
         dispatch({
             type: FETCH_STORIES_FAILURE
         });
+        return {};
     }
 };
 

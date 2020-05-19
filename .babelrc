@@ -5,8 +5,7 @@
                 "modules": false,
                 "targets": [
                     "last 3 versions", "not dead", "not < 1%"
-                ],
-                // "useBuiltIns": "usage"
+                ]
             }
         ],
         "@babel/preset-react"
@@ -31,6 +30,18 @@
                     }
                 ]
             ]
-        }
+        },
+        "test": {
+            "presets": [
+              [
+                "@babel/preset-env",
+                {
+                  "targets": {
+                    "node": "current"
+                  }
+                }
+              ]
+            ]
+          }
     }
 }
