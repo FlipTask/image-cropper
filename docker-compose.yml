@@ -2,14 +2,15 @@ version: "3.8"
 
 services:
   web:
-    env_file: ./.env
-    image: "web:${TAG}"
+    image: ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:$TAG
+    env_file: 
+        - ./.env
+        - ./env/prod.env
     ports:
-      - 8080:${PORT}
+      - 8080:$PORT
     restart: always
     build:
       context: .
       dockerfile: Dockerfile
       args: 
-        - PORT:${PORT}
-        - API_URL:${API_URL}
+        - PORT:$PORT

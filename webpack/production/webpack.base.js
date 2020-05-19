@@ -6,7 +6,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
     // Tell webpack to run babel on every file it runs through
-    devtool: "source-map",
     mode: "production",
     module: {
         rules: [
@@ -21,7 +20,7 @@ module.exports = {
         new LoadablePlugin(),
         new CleanWebpackPlugin(),
         new Dotenv({
-            path: "./.env", // load this now instead of the ones in '.env'
+            path: "./env/prod.env", // load this now instead of the ones in '.env'
             safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
             systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
             silent: true, // hide any errors
@@ -33,7 +32,7 @@ module.exports = {
                 warnings: false,
                 parse: {},
                 compress: {},
-                mangle: true, // Note `mangle.properties` is `false` by default.
+                mangle: true,
                 output: null,
                 toplevel: false,
                 nameCache: null,

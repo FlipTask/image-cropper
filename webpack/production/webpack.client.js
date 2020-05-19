@@ -4,6 +4,7 @@ const {
     CleanWebpackPlugin
 } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const baseConfig = require("./webpack.base");
 
 const config = {
@@ -46,11 +47,39 @@ const config = {
         chunkFilename: "[name].bundle.js",
         path: path.resolve(__dirname, "../../client-build")
     },
+    stats: {
+        colors: false,
+        hash: true,
+        timings: true,
+        assets: true,
+        chunks: true,
+        chunkModules: true,
+        modules: true,
+        children: true
+    },
     optimization: {
+        minimizer: [
+            new UglifyJSPlugin({
+                sourceMap: true,
+                uglifyOptions: {
+                    compress: {
+                        inline: false
+                    }
+                }
+            })
+        ],
+        runtimeChunk: false,
         splitChunks: {
-            chunks: "all"
-        },
-        runtimeChunk: true
+            cacheGroups: {
+                default: false,
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendor_app",
+                    chunks: "all",
+                    minChunks: 2
+                }
+            }
+        }
     },
     plugins: [
         new CleanWebpackPlugin(),

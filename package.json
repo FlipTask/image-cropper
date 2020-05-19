@@ -1,5 +1,5 @@
 {
-    "name": "react-redux-isomorphic-app",
+    "name": "hacker-new-test",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -13,7 +13,8 @@
         "prod:build-client": "NODE_ENV=production webpack --config webpack/production/webpack.client.js",
         "serve": "NODE_ENV=production node server-build/server.js",
         "lint": "./node_modules/eslint-watch/bin/esw --",
-        "lint:watch": "npm run lint --watch"
+        "lint:watch": "npm run lint --watch",
+        "docker": "./tools/docker.sh"
     },
     "devDependencies": {
         "@babel/cli": "^7.8.4",
@@ -42,6 +43,8 @@
         "eslint-watch": "^6.0.1",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^6.0.0",
+        "highcharts": "^8.1.0",
+        "highcharts-react-official": "^3.0.0",
         "html-loader": "^1.1.0",
         "html-webpack-plugin": "^4.2.0",
         "mini-css-extract-plugin": "^0.9.0",
@@ -80,6 +83,7 @@
         "express-http-proxy": "^1.6.0",
         "history": "^4.10.1",
         "http-proxy-middleware": "^1.0.3",
+        "isomorphic-cookie": "^1.2.4",
         "isomorphic-style-loader": "^5.1.0",
         "npm-run-all": "^4.1.5",
         "react": "^16.13.1",

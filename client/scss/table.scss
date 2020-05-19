@@ -44,11 +44,12 @@ table{
                     .row-item__info{
                         .row-item__info--title{
                             line-height: 1.4em;
-                            margin-right: 10px;
+                            // margin-right: 10px;
                             font-weight: 500;
                             a{
                                 color: #333;
                                 font-size: 0.9rem;
+                                margin-right: 0.4rem;
                                 @media screen and (min-width: $phone) and (max-width: $tablet){
                                     font-size: 0.7rem;
                                 }
@@ -57,8 +58,8 @@ table{
                                 }
                             }
                             small{
-                                margin-left: 0.4rem;
                                 font-weight: 100;
+                                display: inline-block;
                             }
                         }
                         .row-item__info--meta-block{
@@ -79,12 +80,19 @@ table{
         }
     }
 }
-
-.caret-upvote {
-    width: 0;
-    height: 0;
+.upvote-btn-wrapper {
     display: inline-block;
-    border: 0.4rem solid transparent;
-    border-bottom-color: #646463;
-    border-radius: 3px;
+    .caret-upvote {
+        width: 0;
+        height: 0;
+        display: inline-block;
+        border: 0.4rem solid transparent;
+        border-bottom-color: #848484;
+    }
+    &:hover{
+        cursor: pointer;
+        .caret-upvote{
+            border-bottom-color: #3a3939 !important;
+        }
+    }
 }

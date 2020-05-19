@@ -28,9 +28,10 @@ const ListItem = (props) => {
         points, // Vote Count
         title,
         url,
-        author
+        author,
+        hidden
     } = props.data;
-    if (!title) {
+    if (!title || hidden) {
         return null;
     }
     const className = getClassForPoints(points);
@@ -39,7 +40,9 @@ const ListItem = (props) => {
             <td className="row-item__td">{numComments || "-"}</td>
             <td className={`row-item__td ${className}`}>{points || "-"}</td>
             <td className="row-item__td">
-                <span className="caret-upvote"></span>
+                <div className="upvote-btn-wrapper" onClick={(e) => props.onUpVote(e, props.data)}>
+                    <span className="caret-upvote" />
+                </div>
             </td>
             <td className="row-item__td">
                 <div className="row-item__info clearfix">
@@ -55,7 +58,7 @@ const ListItem = (props) => {
                         </div>
                         <div className="row-item__info--meta-block">
                             <small>
-                                <a href="#">hide</a>
+                                <a href="#" onClick={(e) => props.hideStory(e, props.data)}>hide</a>
                             </small>
                         </div>
                     </div>

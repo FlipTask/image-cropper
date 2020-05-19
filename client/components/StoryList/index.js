@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import PaginationButton from "../PaginationButton";
 import ListItem from "./ListItem";
-import { fetchStories } from "../../actions";
+import { fetchStories, updateUpVote, hideStory } from "../../actions";
 import TableLoader from "./TableLoader";
 
 const parseQueryString = (str) => {
@@ -44,6 +44,16 @@ class StoryList extends Component {
         return null;
     }
 
+    onUpVote = (e, story) => {
+        e.preventDefault();
+        this.props.updateUpVote(story);
+    }
+
+    onHideStory = (e, story) => {
+        e.preventDefault();
+        this.props.hideStory(story);
+    }
+
     render() {
         const { data, loading } = this.props;
         return (
@@ -62,12 +72,19 @@ class StoryList extends Component {
                         : <React.Fragment>
                             <tbody>
                                 {
-                                    data && data.hits.map((item, i) => <ListItem data={item} key={i}/>)
+                                    data && data.hits.map((item, i) => (
+                                        <ListItem
+                                            hideStory={this.onHideStory}
+                                            onUpVote={this.onUpVote}
+                                            data={item}
+                                            key={i}
+                                        />
+                                    ))
                                 }
                                 <tr className="footer">
                                     <td colSpan="4" style={{
                                         textAlign: "center",
-                                        padding: "1.5em 1em"
+                                        padding: "2em 1em"
                                     }}>
                                         <PaginationButton />
                                     </td>
@@ -86,5 +103,7 @@ const mapStateToProps = ({ stories }) => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-    fetchStories
+    fetchStories,
+    updateUpVote,
+    hideStory
 })(StoryList));

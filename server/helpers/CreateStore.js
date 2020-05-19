@@ -1,9 +1,11 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import axios from "axios";
+import Cookies from "universal-cookie";
 import reducers from "../../client/reducers";
 
 export default (req) => {
+    const cookies = new Cookies(req.headers.cookie);
     const getUrl = () => {
         const apiUrl = process.env.API_URL;
         if (apiUrl.indexOf("http://") > -1 || apiUrl.indexOf("https://") > -1) {
@@ -16,6 +18,9 @@ export default (req) => {
         headers: { cookie: req.get("cookie") || "" }
     });
 
-    const store = createStore(reducers, {}, applyMiddleware(thunk.withExtraArgument(axiosInstance)));
+    const store = createStore(reducers, {}, applyMiddleware(thunk.withExtraArgument({
+        api: axiosInstance,
+        cookies
+    })));
     return store;
 };
