@@ -1,6 +1,6 @@
 #!/bin/bash
 # env file
-ENV_FILE_PATH=./env/prod.env
+ENV_FILE_PATH=./.env
 
 echo "[INFO] Using $ENV_FILE_PATH"
 

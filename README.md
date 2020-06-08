@@ -30,7 +30,9 @@ cd ssr-stream-setup
 ```
 3. Run the install `npm install`
 
-4. To start the server run:
+4. Create a new file `.env` and Copy .env.example into .env
+ 
+5. To start the server run:
 ```
 npm run dev 
 ```
