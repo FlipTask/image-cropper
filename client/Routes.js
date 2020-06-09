@@ -1,6 +1,5 @@
 import React from "react";
 import loadable from "@loadable/component";
-import { fetchStories } from "./actions";
 
 const Loading = () => <h1>Loading...</h1>;
 
@@ -22,14 +21,7 @@ export default [
             {
                 exact: false,
                 path: "/",
-                component: Home,
-                /**
-                 * this function will be called on server side.
-                 * Please check /server/helpers/ServeWeb.js for better understanding
-                 */
-                loadData: (store, route, path, queryParams) => ([
-                    store.dispatch(fetchStories(queryParams && (queryParams.page || 0)))
-                ])
+                component: Home
             }
         ]
     }

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import StoriesReducer from "./StoriesReducer";
+import imageReducer from "./ImageUploaderReducer";
 
 export default combineReducers({
-    stories: StoriesReducer
+    imageHolders: imageReducer
 });

@@ -1,12 +1,13 @@
+// eslint-disable-next-line no-unused-vars
+import dotenv from "dotenv/config";
 import express from "express";
 import Path from "path";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import ServeWeb from "./helpers/ServeWeb";
+import getSignedUrl from "./services/S3";
+import uploadInLocal from "./services/Multer";
 
-require("dotenv").config();
-const { createProxyMiddleware } = require("http-proxy-middleware");
 const compression = require("compression");
 
 const app = express();
@@ -37,15 +38,8 @@ app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-const apiProxy = createProxyMiddleware("/api/v1", {
-    target: `${process.env.API_URL}`,
-    // secure: false,
-    changeOrigin: true
-});
-app.use(apiProxy);
-
-
+app.put("/api/v1/upload", uploadInLocal);
+app.get("/api/v1/signed-url", getSignedUrl);
 app.get("/*", ServeWeb);
 
 const PORT = process.env.PORT || 8080;

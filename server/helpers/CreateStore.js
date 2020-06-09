@@ -7,7 +7,7 @@ import reducers from "../../client/reducers";
 export default (req) => {
     const cookies = new Cookies(req.headers.cookie);
     const getUrl = () => {
-        const apiUrl = process.env.API_URL;
+        const apiUrl = process.env.API_URL || `localhost:${process.env.PORT}`;
         if (apiUrl.indexOf("http://") > -1 || apiUrl.indexOf("https://") > -1) {
             return process.env.API_URL;
         }

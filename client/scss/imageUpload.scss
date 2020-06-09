@@ -1,0 +1,184 @@
+.image-upload{
+    .dropzone{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-width: 2px;
+        border-radius: 2px;
+        border-color: #d2d2d2;
+        color: #7d7d7d;
+        border-style: dashed;
+        // background-color: #f9fcfe;
+        outline: none;
+        transition: border .24s ease-in-out;
+        &:hover,&:active,&:focus{
+            cursor: pointer;
+            border: 2px dashed #1f89e5;
+            color: #1f89e5;
+            transition: border .24s ease-in-out;
+        }
+        p{
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
+            span{
+                display: block;
+                margin-top: 0.4em;
+            }
+        }
+    }
+    .upload-image-list{
+        display: flex;
+        padding: 0.5em 0;
+        list-style: none;
+        overflow-y: auto;
+        .image-wrapper{
+            float: left;
+            height: 80px;
+            width: 80px;
+            margin-right: 2em;
+            .image-thumbnail{
+                object-fit: cover;
+                height: inherit;
+                width: inherit;
+                object-position: center;
+                border-width: 2px;
+                border-radius: 2px;
+                border-color: #eeeeee;
+                border-style: dashed;
+                &:hover,&:active,&:focus{
+                    cursor: pointer;
+                    border: 2px dashed #1f89e5;
+                }
+            }
+        }
+    }
+}
+
+.placeholder-list{
+    list-style: none;
+    padding: 0;
+    .image-wrapper{
+        padding: 2em;
+        border-bottom: 1px solid #ddd;
+        &:last-child{
+            border-bottom: none;
+        }
+        .placeholder-name{
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+}
+.image-placeholder{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    &.text-placeholder{
+        // border: 1px solid #dcdada;
+        background-color: #636363;
+    }
+    > span{
+        font-size: 2em;
+        color: #fff;
+    }
+    .image-overlay{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #333333d9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        p{
+            color: red;
+        }
+    }
+}
+
+.crop-container{
+    position: relative;
+    // border: 1px solid #dcdada;
+    background-color: #636363;
+    // box-sizing: content-box;
+}
+.crop-actions{
+    margin-top: 1em;
+    width: 100%;
+    text-align: center;
+    .btn{
+        margin: 0 1em;
+    }
+}
+
+.reactEasyCrop_CropArea{
+    border: none !important;
+}
+.btn{
+    position: relative;
+    letter-spacing: .025em;
+    text-transform: none;
+    font-weight: 400;
+    line-height: 1.5;
+    display: inline;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 3px;
+    font-size: 12px;
+    padding: 0.225rem 0.75rem;
+    &.disabled{
+        opacity: 0.4;
+        pointer-events: none;
+    }
+    &:hover{
+        cursor: pointer;
+    }
+    &.btn-danger-line{
+        background-color: transparent;
+        color: #ff595e;
+        border: 1px solid #ff595e;
+        &:hover{
+            background-color: #ff595e;
+            color: #fff;
+        }
+    }
+    &.btn-primary-line{
+        background-color: transparent;
+        color: #5e72e4;
+        border: 1px solid #5e72e4;
+        &:hover{
+            background-color: #5e72e4;
+            color: #fff;
+        }
+    }
+    &.btn-success-line{
+        background-color: transparent;
+        color: #5fd07a;
+        border: 1px solid #5fd07a;
+        &:hover{
+            background-color: #5fd07a;
+            color: #fff;
+        }
+    }
+}
+
+.info{
+    padding: 1em 0;
+    h1{
+        margin-top: 0;
+    }
+    ul{
+        padding-left: 1em;
+        list-style: decimal;
+        font-size: 0.8em;
+        line-height: 1.7em;
+    }
+}

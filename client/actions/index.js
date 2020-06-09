@@ -1,105 +1,70 @@
+import axios from "axios";
 import {
-    FETCH_STORIES_FAILURE,
-    FETCH_STORIES_PENDING,
-    FETCH_STORIES_SUCCESS,
-    UPVOTE_STORY,
-    HIDE_STORY
+    IMAGE_UPLOAD_FAILURE,
+    IMAGE_UPLOAD_PENDING,
+    IMAGE_UPLOAD_SUCCESS,
+    SET_IMAGE_PROGRESS
 } from "../constants/ActionTypes";
 
-const appName = require("../../package.json").name;
+const delayForFlashingLoader = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-const upVoteTableName = `${appName}-upvotes`;
-const hideStoryTableName = `${appName}-hidden`;
-
-export const updateListWithPersistentData = (data = {}) => async (dispatch, getState, { cookies }) => {
+export const getSignedUrl = ({ objectName, contentType }) => async (dispatch, getState, { api }) => {
     try {
-        const hiddenStories = cookies.get(hideStoryTableName) || {};
-        const upVoteStories = cookies.get(upVoteTableName) || {};
-        return {
-            ...data,
-            hits: data.hits.map((obj) => {
-                const myObj = obj;
-                if (upVoteStories && upVoteStories[myObj.objectID]) {
-                    myObj.points = parseInt(myObj.points, 10) + parseInt(upVoteStories[myObj.objectID], 10);
-                }
-                if (hiddenStories && hiddenStories[myObj.objectID]) {
-                    myObj.hidden = true;
-                }
-                return myObj;
-            })
-        };
-    } catch (e) {
-        console.log("Running on server, Will Update on App Mount", e);
-        return data;
-    }
-};
-
-export const updateStoriesInStore = (data = {}) => async (dispatch) => {
-    dispatch({
-        type: FETCH_STORIES_SUCCESS,
-        payload: data
-    });
-};
-
-export const fetchStories = (page = 0) => async (dispatch, getState, { api }) => {
-    try {
-        dispatch({ type: FETCH_STORIES_PENDING });
-
-        const res = await api.get(`/search?page=${page}&hitsPerPage=30`);
-        const modifiedData = await dispatch(updateListWithPersistentData(res.data));
-        dispatch(updateStoriesInStore(modifiedData));
-        return modifiedData;
-    } catch (err) {
-        console.log(err);
-        dispatch({
-            type: FETCH_STORIES_FAILURE
+        const res = await api.get("/signed-url", {
+            params: {
+                objectName,
+                contentType
+            }
         });
-        return {};
+        return res.data;
+    } catch (error) {
+        return error;
     }
 };
 
-export const updateVoteInPersistent = (story) => async (dispatch, getState, { cookies }) => {
+export const uploadImage = (file, id) => async (dispatch) => {
+    dispatch({ type: IMAGE_UPLOAD_PENDING, payload: { id } });
+    await delayForFlashingLoader(300);
     try {
-        const votes = cookies.get(upVoteTableName);
-        const votesObj = votes || {};
-        if (votesObj[story.objectID]) {
-            votesObj[story.objectID] += 1;
+        const formdata = new FormData();
+        formdata.append("file", file);
+        const signedurl = await dispatch(getSignedUrl({
+            objectName: file.name,
+            contentType: file.type
+        }));
+        if (signedurl.url) {
+            await axios.put(
+                signedurl.url,
+                signedurl.destination === "local" ? formdata : file,
+                {
+                    headers: {
+                        "Content-Type": file.type
+                    },
+                    onUploadProgress(progressEvent) {
+                        const percentCompleted = Math.round(
+                            (progressEvent.loaded * 100) / progressEvent.total
+                        );
+                        dispatch({
+                            type: SET_IMAGE_PROGRESS,
+                            payload: {
+                                id,
+                                percentCompleted
+                            }
+                        });
+                    }
+                }
+            );
+            dispatch({
+                type: IMAGE_UPLOAD_SUCCESS,
+                payload: {
+                    id
+                }
+            });
         } else {
-            votesObj[story.objectID] = 1;
+            dispatch({ type: IMAGE_UPLOAD_FAILURE, payload: { id } });
         }
-        cookies.set(upVoteTableName, JSON.stringify(votesObj), { path: "/" });
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        dispatch({ type: IMAGE_UPLOAD_FAILURE, payload: { id } });
+        // return error.respose.data;
     }
-};
-
-export const hideStoryInPersistent = (story) => async (dispatch, getState, { cookies }) => {
-    try {
-        const hiddenStories = cookies.get(hideStoryTableName);
-        const stories = hiddenStories || {};
-        stories[story.objectID] = true;
-        cookies.set(hideStoryTableName, JSON.stringify(stories), { path: "/" });
-    } catch (e) {
-        console.log(e);
-    }
-};
-
-export const updateUpVote = (story) => async (dispatch) => {
-    try {
-        dispatch(updateVoteInPersistent(story));
-        dispatch({
-            type: UPVOTE_STORY,
-            payload: story.objectID
-        });
-    } catch (e) {
-        console.log(e);
-    }
-};
-
-export const hideStory = (story) => async (dispatch) => {
-    dispatch(hideStoryInPersistent(story));
-    dispatch({
-        type: HIDE_STORY,
-        payload: story.objectID
-    });
 };
