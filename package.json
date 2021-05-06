@@ -49,7 +49,7 @@
         "eslint-watch": "^6.0.1",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^6.0.0",
-        "highcharts": "^8.1.0",
+        "highcharts": "^9.0.0",
         "highcharts-react-official": "^3.0.0",
         "html-loader": "^1.1.0",
         "html-webpack-plugin": "^4.2.0",
